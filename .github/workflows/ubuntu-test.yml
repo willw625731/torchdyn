@@ -2,7 +2,7 @@ name: torchdyn CI testing on Ubuntu OS
 on: [push, pull_request]
 
 jobs:
-  pytest:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false 
@@ -10,7 +10,7 @@ jobs:
         os: [ubuntu-16.04, ubuntu-18.04]
         python-version: [3.6, 3.7, 3.8]
         
-steps:
+    steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
