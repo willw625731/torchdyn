@@ -19,7 +19,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        	python -c "req = open('requirements.txt').read().replace('>', '=') ; open('requirements.txt', 'w').write(req)"
+        	python -c "fname = 'requirements/base.txt' ; req = open(fname).read().replace('>=', '==') ; open(fname, 'w').write(req)"
         	sudo python -m pip install --upgrade --user pip
         	sudo pip install -r requirements.txt 
         	sudo python setup.py install
