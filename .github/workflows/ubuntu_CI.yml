@@ -2,19 +2,19 @@ name: torchdyn CI testing on Ubuntu OS
 on: [push, pull_request]
 
 jobs:
-	pytest:
-		runs-on: ${{ matrix.os }}
-		strategy:
-			fail-fast: false 
-			matrix:
-				os: [ubuntu-16.04, ubuntu-18.04]
-				python-version: [3.6, 3.7, 3.8]
-	steps:
-		- uses: actions/checkout@v2
-		- name: Set up Python ${{ matrix.python-version }}
-			uses: actions/setup-python@v2
-			with: 
-				python-version: ${{ matrix.python-version }}
+  pytest:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false 
+      matrix:
+        os: [ubuntu-16.04, ubuntu-18.04]
+        python-version: [3.6, 3.7, 3.8]
+  steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with: 
+        python-version: ${{ matrix.python-version }}
 
 		- name: Install dependencies
 			run: |
