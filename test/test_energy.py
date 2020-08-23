@@ -20,7 +20,7 @@ def test_stable_neural_de():
             nn.Linear(64, 1)))
     model = NeuralDE(f).to(device)
     learn = TestLearner(model, trainloader=trainloader)
-    trainer = pl.Trainer(min_epochs=10, max_epochs=30)
+    trainer = pl.Trainer(min_epochs=1, max_epochs=2)
     trainer.fit(learn)
     
 def test_hnn():
@@ -38,7 +38,7 @@ def test_hnn():
             nn.Linear(64, 1)))
     model = NeuralDE(f).to(device)
     learn = TestLearner(model, trainloader=trainloader)
-    trainer = pl.Trainer(min_epochs=10, max_epochs=30)
+    trainer = pl.Trainer(min_epochs=1, max_epochs=2)
     trainer.fit(learn)
     
 def test_lnn():
@@ -56,5 +56,5 @@ def test_lnn():
             nn.Linear(64, 1)))
     model = NeuralDE(f).to(device)
     learn = TestLearner(model, trainloader=trainloader)
-    trainer = pl.Trainer(min_epochs=10, max_epochs=30)
+    trainer = pl.Trainer(min_epochs=1, max_epochs=2)
     trainer.fit(learn)
