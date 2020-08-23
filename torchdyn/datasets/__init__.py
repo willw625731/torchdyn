@@ -1,2 +1,2 @@
-from .static_datasets import *
+from .toy_static import *
 from .toy_sequence import *
