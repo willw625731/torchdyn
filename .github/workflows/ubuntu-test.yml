@@ -26,10 +26,7 @@ jobs:
         pip install -r requirements.txt --find-links https://download.pytorch.org/whl/cpu/torch_stable.html --upgrade
         python setup.py install
         pip install pytest pytest-cov
-        pip install codecov
-        pip install coverage
         
     - name: Run tests
       run: |
         coverage run --source=torchdyn -m pytest
-        codecov
