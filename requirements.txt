@@ -7,6 +7,5 @@ matplotlib
 torch>=1.6.0
 torchvision
 torchdiffeq
-torchsde
 pytorch_lightning>=0.8.4
 scikit-learn

@@ -12,7 +12,6 @@ setuptools.setup(
                       'pytorch-lightning>=0.8.4',
                       'dgl>=0.4.1',
                       'torchdiffeq',
-                      'torchsde',
                       'matplotlib',
                       'torchvision',
                       'scikit-learn'],
