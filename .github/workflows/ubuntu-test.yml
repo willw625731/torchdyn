@@ -19,15 +19,15 @@ jobs:
 
     - name: Install dependencies
       run: |
-        	python -c "fname = 'requirements/base.txt' ; req = open(fname).read().replace('>=', '==') ; open(fname, 'w').write(req)"
-        	sudo python -m pip install --upgrade --user pip
-        	sudo pip install -r requirements.txt 
-        	sudo python setup.py install
-        	sudo pip install pytest pytest-cov
-        	pip install codecov
-        	pip install coverage
+        python -c "fname = 'requirements/base.txt' ; req = open(fname).read().replace('>=', '==') ; open(fname, 'w').write(req)"
+        sudo python -m pip install --upgrade --user pip
+        sudo pip install -r requirements.txt 
+        sudo python setup.py install
+        sudo pip install pytest pytest-cov
+        pip install codecov
+        pip install coverage
         
     - name: Run tests
       run: |
-        	coverage run --source=torchdyn -m pytest
-        	codecov
+        coverage run --source=torchdyn -m pytest
+        codecov
