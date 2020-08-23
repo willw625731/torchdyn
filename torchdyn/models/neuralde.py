@@ -4,7 +4,7 @@ import pytorch_lightning as pl
 from .defunc import DEFunc
 from torchdyn.sensitivity.adjoint import Adjoint
 from .._internals import compat_check
-import torchdiffeq; import torchsde
+import torchdiffeq
 
 class NeuralDE(pl.LightningModule):
     """General Neural ODE class
