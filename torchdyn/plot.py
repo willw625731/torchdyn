@@ -18,7 +18,15 @@ import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 from mpl_toolkits.mplot3d import Axes3D
+from typing import Callable
 
+def mesh_apply(x_grid:torch.Tensor, y_grid:torch.Tensor, func:torch.Tensor:Callable):
+    """Applies scalar function to 2D meshgrid"""
+    XX, YY = torch.meshgrid(x_grid, y_grid)
+    XY = torch.cat([XX.reshape(-1,1), YY.reshape(-1,1)], 1)
+    Z = func(XY)
+    Z = Z.reshape(*x_grid.shape, *y_grid.shape)
+    return Z
 
 def plot_2d_boundary(model, X, y, mesh, num_classes=2, figsize=(8,4), alpha=0.8):
     """Plots decision boundary of a 2-dimensional task
