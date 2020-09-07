@@ -14,10 +14,10 @@ import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torchdiffeq
+import torchsde
 from torchdyn.sensitivity.adjoint import Adjoint
 
-from .defunc import DEFunc
-
+from .defunc import DEFunc, SDEFunc
 
 class NeuralDE(pl.LightningModule):
     """General Neural DE class
@@ -36,8 +36,6 @@ class NeuralDE(pl.LightningModule):
                        rtol=1e-4,
                        intloss=None):
         super().__init__()
-        #compat_check(defaults)
-        # TO DO: remove controlled from input args
         self.defunc, self.order = DEFunc(func, order), order
         self.sensitivity, self.s_span, self.solver = sensitivity, s_span, solver
         self.nfe = self.defunc.nfe
@@ -132,3 +130,53 @@ class NeuralDE(pl.LightningModule):
         \n\t- NFE: {self.nfe}\n\
         \nIntegral loss: {self.intloss}\n\
         \nDEFunc:\n {self.defunc}"
+    
+
+class NeuralSDE(pl.LightningModule):
+    def __init__(self, drift_func, 
+                       diffusion_func, 
+                       noise_type='diagonal',
+                       order=1,
+                       sensitivity='autograd',
+                       s_span=torch.linspace(0, 1, 2),
+                       solver='srk',
+                       atol=1e-4,
+                       rtol=1e-4,
+                       intloss=None):
+        
+        super().__init__()
+        self.defunc = SDEFunc(f=drift_func, g=diffusion_func)
+        self.defunc.noise_type, self.defunc.sde_type = noise_type, 'ito'
+        
+        self.rtol, self.atol = rtol, atol
+        self.solver, self.s_span = solver, s_span
+        self.adaptive = False
+    
+    def forward(self, x: torch.Tensor):
+
+        for name, module in self.defunc.named_modules():
+            if hasattr(module, 'u'): 
+                self.controlled = True
+                module.u = x.detach()
+
+        out = sdeint(self.defunc, x, self.s_span,
+                     rtol=self.rtol, atol=self.atol, 
+                     adaptive=self.adaptive, method=self.solver)[-1]
+        return out
+    
+    def trajectory(self, x: torch.Tensor, s_span: torch.Tensor):
+        sol = sdeint(self.defunc, x, s_span,
+                     rtol=self.rtol, atol=self.atol, method=self.solver)
+        return sol
+    
+    def __repr__(self):
+        npar = sum([p.numel() for p in self.defunc.parameters()]) 
+        return f"Neural SDE:\n\t- order: {self.order}\
+        \n\t- solver: {self.solver}\n\t- integration interval: {self.s_span[0]} to {self.s_span[-1]}\
+        \n\t- num_checkpoints: {len(self.s_span)}\
+        \n\t- tolerances: relative {self.rtol} absolute {self.atol}\
+        \n\t- num_parameters: {npar}\
+        \n\t- NFE: {self.nfe}\n\
+        \nIntegral loss: {self.intloss}\n\
+        \nDEFunc:\n {self.defunc}"
+

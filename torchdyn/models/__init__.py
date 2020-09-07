@@ -12,10 +12,8 @@
 
 from .defunc import *
 from .energy import *
-from .galerkin import *
 from .neuralde import *
 from .normflows import *
-from .utils import *
-from .sdeutils import *
-from .sdefunc import *
-from .neuralsde import *
+
+# v0.2.2+: preserve backward compatibility
+NeuralODE = NeuralDE

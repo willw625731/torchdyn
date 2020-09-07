@@ -1,6 +1,5 @@
 """A partial Re-implementation of Xuechen Li's work (https://github.com/google-research/torchsde/blob/master/examples/latent_sde.py)"""
 
-
 import os
 import math
 import numpy as np
@@ -13,8 +12,9 @@ import pytorch_lightning as pl
 from torch.utils.data import Dataset, DataLoader
 from torch.distributions import Laplace
 
-from from torchdyn.models import LatentNeuralSDE, LinearScheduler, EMAMetric
+from from torchdyn.models import LatentNeuralSDE
 from torchsde import BrownianPath
+from .latent_sde_utils import LinearScheduler, EMAMetric
 
 
 class IrregularSineDataset(Dataset):

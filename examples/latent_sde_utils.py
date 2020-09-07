@@ -1,6 +1,5 @@
 import torch
 
-
 class LinearScheduler(object):
     def __init__(self, iters, maxval=1.0):
         iters = max(1, iters)
